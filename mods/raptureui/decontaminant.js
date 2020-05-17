@@ -13,37 +13,36 @@ var rui = window["mods"]["raptureui"];
 // It is a sanity measure to prevent frustration on their part. - 20kdc
 
 sc.VerionChangeLog.inject({
- toOnlyNumberString: function() {
-  return this.parent() + " modded";
- }
+  toOnlyNumberString: function() {
+    return this.parent() + " modded";
+  }
 });
 
 var ccDeveloperAlert = "RaptureUI in use, Rapture " + rapture["version"] + ". This save came directly from a modded copy of the game.";
 var ccDeveloperAlertLongterm = "RaptureUI was previously used as part of this save's history. If you do not see an ALERT_TO_CC_DEVS in the outer save object, then it's not modded anymore, and will likely not affect the bug."
 
 sc.CrossCode.inject({
- getErrorData: function(data) {
-  this.parent(data);
-  data["ALERT_TO_CC_DEVS"] = ccDeveloperAlert;
- }
+  getErrorData: function(data) {
+    this.parent(data);
+    data["ALERT_TO_CC_DEVS"] = ccDeveloperAlert;
+  }
 });
 
 rui["RIGameAddon"] = ig.GameAddon.extend({
- init: function() {
-  this.parent("RaptureUI");
-  // NOTE: Only call singleton methods like this during GameAddon init and later!
-  // It's no-mans-land on singletons before then because of mods overriding them.
-  ig.storage.register(this);
- },
- onStorageSave: function(a) {
-  a["ALERT_TO_CC_DEVS"] = ccDeveloperAlert;
-  // This is buried deeper in, and 'taints' the save
-  a["vars"]["storage"]["ALERT_TO_CC_DEVS"] = ccDeveloperAlertLongterm;
- }
+  init: function() {
+    this.parent("RaptureUI");
+    // NOTE: Only call singleton methods like this during GameAddon init and later!
+    // It's no-mans-land on singletons before then because of mods overriding them.
+    ig.storage.register(this);
+  },
+  onStorageSave: function(a) {
+    a["ALERT_TO_CC_DEVS"] = ccDeveloperAlert;
+    // This is buried deeper in, and 'taints' the save
+    a["vars"]["storage"]["ALERT_TO_CC_DEVS"] = ccDeveloperAlertLongterm;
+  }
 });
 ig.addGameAddon(function() {
- return rui["riGameAddon"] = new rui["RIGameAddon"]();
+  return rui["riGameAddon"] = new rui["RIGameAddon"]();
 });
 if (ig.LANG_EDIT_SUBMIT_URL)
- ig.LANG_EDIT_SUBMIT_URL += "?modded=raptureui";
-
+  ig.LANG_EDIT_SUBMIT_URL += "?modded=raptureui";

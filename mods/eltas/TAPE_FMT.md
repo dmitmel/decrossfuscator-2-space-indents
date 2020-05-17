@@ -6,7 +6,7 @@ If the ELTAS tape is an array, it should be assumed to be:
 
 ```json
 {
- "frames": VALUE
+  "frames": VALUE
 }
 ```
 
@@ -55,10 +55,10 @@ But it also includes the frame of a keyup.
 Thus, the state list is:
 
 ```
- 1: Incoming. DS
- 2: Held.      S
- 3: Outgoing.  SU
- 4: Perfect.  DSU
+  1: Incoming. DS
+  2: Held.      S
+  3: Outgoing.  SU
+  4: Perfect.  DSU
 ```
 
 Getting the special keyup behavior of 3 or 4 wrong will cause charged shots to simply fail to work.
@@ -76,28 +76,28 @@ Since if you got this wrong the input state of a released button would be false,
 Example mock:
 
 ```
- {
-  state: {jump: (1/2/3/4)},
-  mouseX: 0,
-  mouseY: 0
- }
+  {
+    state: {jump: (1/2/3/4)},
+    mouseX: 0,
+    mouseY: 0
+  }
 ```
 
 There is also the possible additional attribute 'leftStick', containing `x` and `y` from -1 to 1.
 
 While eltas's model is primarily designed around a PC keyboard & mouse,
- some speedrunning tricks require direct control of player orientation.
+  some speedrunning tricks require direct control of player orientation.
 
 ```
 (Direct control of attack direction is of course controlled via mouse, and so on;
-  supporting more than the movement stick will thus have no effect on gameplay.
- The TAS System also has too many buttons for a proper controller interface,
-  so support of controllers as an input device is not happening;
-  left stick emulation is only supported as part of what is necessary
-  to provide all inputs players can achieve to all other users.
- Please see the comments on Symphonia46's video,
-  https://www.youtube.com/watch?v=HtyliqQBu8k
-  for two instances giving the reasoning.)
+    supporting more than the movement stick will thus have no effect on gameplay.
+  The TAS System also has too many buttons for a proper controller interface,
+    so support of controllers as an input device is not happening;
+    left stick emulation is only supported as part of what is necessary
+    to provide all inputs players can achieve to all other users.
+  Please see the comments on Symphonia46's video,
+    https://www.youtube.com/watch?v=HtyliqQBu8k
+    for two instances giving the reasoning.)
 ```
 
 ## Reader/Writer Begin ('Checkpoint') Behavior

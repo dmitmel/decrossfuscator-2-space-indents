@@ -1,2 +1,3 @@
-All code by 20kdc for now, but Teh helped with ideas, and motivated me 
+All code by 20kdc for now, but Teh helped with ideas, and motivated me
  (20kdc) to start work on this again.
+Reindented by dmitmel.

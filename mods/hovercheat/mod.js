@@ -10,19 +10,19 @@ window["mods"]["raptureui"]["registerKey"]("hover", "Hovercheat", ig.KEY.P);
 
 (function () {
 
- var HCGameAddon = ig.GameAddon.extend({
-  init: function () {
-   this.parent("Hovercheat");
-  },
-  onPreUpdate: function () {
-   if (ig.input.pressed("hover"))
-    if (ig.game.playerEntity)
-     ig.game.playerEntity.fly.height = (ig.game.playerEntity.fly.height || 0) + 25;
-  }
- });
- ig.addGameAddon(function () {
-  return new HCGameAddon();
- });
+  var HCGameAddon = ig.GameAddon.extend({
+    init: function () {
+      this.parent("Hovercheat");
+    },
+    onPreUpdate: function () {
+      if (ig.input.pressed("hover"))
+        if (ig.game.playerEntity)
+          ig.game.playerEntity.fly.height = (ig.game.playerEntity.fly.height || 0) + 25;
+    }
+  });
+  ig.addGameAddon(function () {
+    return new HCGameAddon();
+  });
 
 })();
 

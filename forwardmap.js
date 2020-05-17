@@ -30,31 +30,31 @@ var processCount = 0;
 var candidateMap = new Map();
 
 function processCore(idx, len, st) {
- processCount++;
- console.error("Activating " + st);
- var proc = child_process.spawn(process.argv[0], ["forwardmap-worker.js", process.argv[2], idx.toString(), (idx + len).toString(), process.argv[3], process.argv[4], process.argv[5], st, process.argv[8], process.argv[7]], {
-  stdio: "inherit"
- });
- proc.on("close", function (ex) {
-  if (ex != 0) {
-   console.error("subprocess " + st + " may have died in an accident");
-  } else {
-   // Process complete, merge in the process's JSON
-   mapper.candidateMapLoadAndMergeJSON(candidateMap, st);
-  }
-  processCount--;
-  if (processCount == 0) {
-   console.error("No workers remain, finalizing");
-   // Emit all the things and shut down
-   mapper.candidateMapMergeIntoRealMap(realMap, candidateMap, exclusionMatcher.lostSymbols);
-   mapper.logDeobfToObf(realMap);
-   process.exit(0);
-  } else if (processCount == 1) {
-   console.error("1 worker remains");
-  } else {
-   console.error(processCount + " workers remain");
-  }
- });
+  processCount++;
+  console.error("Activating " + st);
+  var proc = child_process.spawn(process.argv[0], ["forwardmap-worker.js", process.argv[2], idx.toString(), (idx + len).toString(), process.argv[3], process.argv[4], process.argv[5], st, process.argv[8], process.argv[7]], {
+    stdio: "inherit"
+  });
+  proc.on("close", function (ex) {
+    if (ex != 0) {
+      console.error("subprocess " + st + " may have died in an accident");
+    } else {
+      // Process complete, merge in the process's JSON
+      mapper.candidateMapLoadAndMergeJSON(candidateMap, st);
+    }
+    processCount--;
+    if (processCount == 0) {
+      console.error("No workers remain, finalizing");
+      // Emit all the things and shut down
+      mapper.candidateMapMergeIntoRealMap(realMap, candidateMap, exclusionMatcher.lostSymbols);
+      mapper.logDeobfToObf(realMap);
+      process.exit(0);
+    } else if (processCount == 1) {
+      console.error("1 worker remains");
+    } else {
+      console.error(processCount + " workers remain");
+    }
+  });
 };
 
 var remainingSize = oldTokens.length;
@@ -62,11 +62,11 @@ var currentIndex = 0;
 var parts = os.cpus().length;
 var partSize = Math.floor(oldTokens.length / parts);
 if (partSize != 0) {
- for (var i = 0; i < parts - 1; i++) {
-  processCore(currentIndex, partSize, "./workfiles/" + i + ".json");
-  currentIndex += partSize;
-  remainingSize -= partSize;
- }
+  for (var i = 0; i < parts - 1; i++) {
+    processCore(currentIndex, partSize, "./workfiles/" + i + ".json");
+    currentIndex += partSize;
+    remainingSize -= partSize;
+  }
 }
 processCore(currentIndex, remainingSize, "./workfiles/" + i + ".json");
 console.error("forwardmap.js done with process startup");

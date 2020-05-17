@@ -1,5 +1,5 @@
 {
- "description": "An experimental TAS system.",
- "disableByDefault": true,
- "dependencies": ["raptureui"]
+  "description": "An experimental TAS system.",
+  "disableByDefault": true,
+  "dependencies": ["raptureui"]
 }

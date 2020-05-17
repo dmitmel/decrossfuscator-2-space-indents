@@ -10,41 +10,41 @@
 var eta = window["mods"]["eltas"];
 
 eta["TASCore"].inject({
- "writer": null,
- "hasSavedThisFrame": false,
+  "writer": null,
+  "hasSavedThisFrame": false,
 
- "runSingleSpeedFrame": function () {
-  // Need to modularize this, but how?
-  if (ig.input.pressed("emileatasWriterToggle")) {
-   if (this["writer"] != null) {
-    this["writer"] = null;
-   } else {
-    this["writer"] = {
-     "frames": []
-    };
-    if (Math["emileatasUseDRNG"])
-     this["writer"]["dRNG"] = true;
-    if (ig.Input["emileatasForceMouseGuiActiveAlways"])
-     this["writer"]["mouseGui"] = true;
-    ig.Timer["emileatasCheckpoint"]();
-   }
-  }
-  if (ig.input.pressed("emileatasWriterConfirm")) {
-   var fs = require("fs");
-   var c = JSON.stringify(this["writer"]);
-   // Overwrite the read-in spool and create a backup file
-   fs.writeFileSync("eltasBuffer.json", c, "utf8");
-   fs.writeFileSync("eltasBuffer" + (new Date().getTime()) + ".json", c, "utf8");
-   this["hasSavedThisFrame"] = true;
-  }
-  this.parent();
- },
- 
- "logGameFrame": function (mock) {
-  this.parent(mock);
-  this["hasSavedThisFrame"] = false;
-  if (this["writer"])
-   this["writer"]["frames"].push(mock);
- },
+  "runSingleSpeedFrame": function () {
+    // Need to modularize this, but how?
+    if (ig.input.pressed("emileatasWriterToggle")) {
+      if (this["writer"] != null) {
+        this["writer"] = null;
+      } else {
+        this["writer"] = {
+          "frames": []
+        };
+        if (Math["emileatasUseDRNG"])
+          this["writer"]["dRNG"] = true;
+        if (ig.Input["emileatasForceMouseGuiActiveAlways"])
+          this["writer"]["mouseGui"] = true;
+        ig.Timer["emileatasCheckpoint"]();
+      }
+    }
+    if (ig.input.pressed("emileatasWriterConfirm")) {
+      var fs = require("fs");
+      var c = JSON.stringify(this["writer"]);
+      // Overwrite the read-in spool and create a backup file
+      fs.writeFileSync("eltasBuffer.json", c, "utf8");
+      fs.writeFileSync("eltasBuffer" + (new Date().getTime()) + ".json", c, "utf8");
+      this["hasSavedThisFrame"] = true;
+    }
+    this.parent();
+  },
+
+  "logGameFrame": function (mock) {
+    this.parent(mock);
+    this["hasSavedThisFrame"] = false;
+    if (this["writer"])
+      this["writer"]["frames"].push(mock);
+  },
 
 });

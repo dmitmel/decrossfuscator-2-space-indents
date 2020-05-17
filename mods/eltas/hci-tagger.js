@@ -10,16 +10,16 @@
 var eta = window["mods"]["eltas"];
 
 eta["TASCore"].inject({
- "logGameFrame": function (mock) {
-  // Notably, this is ignored for actual usage; it's just a determinism debug tool.
-  mock["tag"] = {
-   "frame": (this["writer"]) && (this["writer"].length),
-   "currentState": sc.model.currentState,
-   "currentSubState": sc.model.currentSubState,
-   // Actually sampling from Math.random will affect random results dependent on Tagger usage.
-   // Instead this is a reading from the deterministic RNG, because if that's not in use then none of this matters.
-   "randomVal": Math["emileatasRandomValue"]
-  };
-  this.parent(mock);
- }
+  "logGameFrame": function (mock) {
+    // Notably, this is ignored for actual usage; it's just a determinism debug tool.
+    mock["tag"] = {
+      "frame": (this["writer"]) && (this["writer"].length),
+      "currentState": sc.model.currentState,
+      "currentSubState": sc.model.currentSubState,
+      // Actually sampling from Math.random will affect random results dependent on Tagger usage.
+      // Instead this is a reading from the deterministic RNG, because if that's not in use then none of this matters.
+      "randomVal": Math["emileatasRandomValue"]
+    };
+    this.parent(mock);
+  }
 });

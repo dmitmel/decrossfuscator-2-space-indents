@@ -28,4 +28,3 @@ node forwardmap.js $SJSF $SJMF/deobf.map $TJSF $TJMF/deobf.map fixup $CCVER pass
 cp $TJMF/deobf-forward.map $TJMF/deobf.map
 node forwardmap.js $SJSF $SJMF/deobf.map $TJSF $TJMF/deobf.map fixup $CCVER pass4 > $TJMF/deobf-forward.map
 cp $TJMF/deobf-forward.map $TJMF/deobf.map
-

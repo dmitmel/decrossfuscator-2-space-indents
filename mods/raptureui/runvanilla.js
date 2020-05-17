@@ -15,27 +15,26 @@ sc.GAME_MODEL_SUBSTATE["RAPTUREUI_UNINSTALL"] = rui["allocateConstant"]();
 sc.GAME_MODEL_SUBSTATE["RAPTUREUI_REFRESH"] = rui["allocateConstant"]();
 
 sc.GameModel.inject({
- ["enterRaptureUIRunvanilla"]: function() {
-  this._setSubState(sc.GAME_MODEL_SUBSTATE["RAPTUREUI_RUNVANILLA"]);
- },
- ["enterRaptureUIUninstall"]: function() {
-  this._setSubState(sc.GAME_MODEL_SUBSTATE["RAPTUREUI_UNINSTALL"]);
- },
- ["enterRaptureUIRefresh"]: function() {
-  this._setSubState(sc.GAME_MODEL_SUBSTATE["RAPTUREUI_REFRESH"]);
- }
+  ["enterRaptureUIRunvanilla"]: function() {
+    this._setSubState(sc.GAME_MODEL_SUBSTATE["RAPTUREUI_RUNVANILLA"]);
+  },
+  ["enterRaptureUIUninstall"]: function() {
+    this._setSubState(sc.GAME_MODEL_SUBSTATE["RAPTUREUI_UNINSTALL"]);
+  },
+  ["enterRaptureUIRefresh"]: function() {
+    this._setSubState(sc.GAME_MODEL_SUBSTATE["RAPTUREUI_REFRESH"]);
+  }
 });
 
 sc.CrossCode.inject({
- transitionEnded: function () {
-  if (sc.model.currentSubState == sc.GAME_MODEL_SUBSTATE["RAPTUREUI_RUNVANILLA"]) {
-   rapture["runVanilla"]();
-  } else if (sc.model.currentSubState == sc.GAME_MODEL_SUBSTATE["RAPTUREUI_UNINSTALL"]) {
-   rapture["uninstall"]();
-  } else if (sc.model.currentSubState == sc.GAME_MODEL_SUBSTATE["RAPTUREUI_REFRESH"]) {
-   location.href = location.href;
+  transitionEnded: function () {
+    if (sc.model.currentSubState == sc.GAME_MODEL_SUBSTATE["RAPTUREUI_RUNVANILLA"]) {
+      rapture["runVanilla"]();
+    } else if (sc.model.currentSubState == sc.GAME_MODEL_SUBSTATE["RAPTUREUI_UNINSTALL"]) {
+      rapture["uninstall"]();
+    } else if (sc.model.currentSubState == sc.GAME_MODEL_SUBSTATE["RAPTUREUI_REFRESH"]) {
+      location.href = location.href;
+    }
+    this.parent();
   }
-  this.parent();
- }
 });
-

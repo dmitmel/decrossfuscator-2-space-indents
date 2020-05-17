@@ -7,4 +7,4 @@
 
 var rosettaGlobals = require("./lib/rosetta-global-data");
 for (var i = 0; i < rosettaGlobals.primaryBlacklist.length; i++)
- console.log("ROSETTA." + rosettaGlobals.primaryBlacklist[i] + " = function () {};");
+  console.log("ROSETTA." + rosettaGlobals.primaryBlacklist[i] + " = function () {};");

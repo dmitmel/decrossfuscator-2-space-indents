@@ -20,17 +20,16 @@ var mapping = fs.readFileSync(process.argv[3], "utf8");
 mapping = mapper.loadDeobfToObf(mapping);
 
 for (var i = 0; i < tkns.length; i++) {
- if (tkns[i][0] == "id") {
-  var propKey = lexer.propKey(tkns, i);
-  if (propKey) {
-   if (!mapping.has(tkns[i][1])) {
-    if (rosettaGlobals.primaryBlacklist.indexOf(tkns[i][1]) == -1) {
-     if (rosettaGlobals.hiddenExternBlacklist.indexOf(tkns[i][1]) == -1) {
-      console.log(process.argv[2] + ": " + tkns[i][1]);
-     }
+  if (tkns[i][0] == "id") {
+    var propKey = lexer.propKey(tkns, i);
+    if (propKey) {
+      if (!mapping.has(tkns[i][1])) {
+        if (rosettaGlobals.primaryBlacklist.indexOf(tkns[i][1]) == -1) {
+          if (rosettaGlobals.hiddenExternBlacklist.indexOf(tkns[i][1]) == -1) {
+            console.log(process.argv[2] + ": " + tkns[i][1]);
+          }
+        }
+      }
     }
-   }
   }
- }
 }
-

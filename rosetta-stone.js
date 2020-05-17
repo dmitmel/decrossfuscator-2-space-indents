@@ -19,28 +19,28 @@ var mapRosettaToReal = mapper.loadObfToDeobf(fs.readFileSync(process.argv[3] + "
 var mapRealToCompiled = new Map();
 
 for (var i = 0; i < tA.length; i++) {
- if (tA[i][0] != tB[i][0])
-  throw new Error("Incompatibilities of this kind CANNOT be accepted at this stage (Rosetta inherently works using identical ASTs)");
- if (tA[i][0] == "id") {
-  if (lexer.propKey(tA, i)) {
-   var idx1 = tB[i][1];
-   if (mapRosettaToReal.has(idx1)) {
-    var targ = mapRosettaToReal.get(idx1);
-    var val = tA[i][1];
-    if (mapRealToCompiled.has(targ)) {
-     if (mapRealToCompiled.get(targ) != val)
-      throw new Error("Inconsistency");
-    } else {
-     mapRealToCompiled.set(targ, val);
+  if (tA[i][0] != tB[i][0])
+    throw new Error("Incompatibilities of this kind CANNOT be accepted at this stage (Rosetta inherently works using identical ASTs)");
+  if (tA[i][0] == "id") {
+    if (lexer.propKey(tA, i)) {
+      var idx1 = tB[i][1];
+      if (mapRosettaToReal.has(idx1)) {
+        var targ = mapRosettaToReal.get(idx1);
+        var val = tA[i][1];
+        if (mapRealToCompiled.has(targ)) {
+          if (mapRealToCompiled.get(targ) != val)
+            throw new Error("Inconsistency");
+        } else {
+          mapRealToCompiled.set(targ, val);
+        }
+      }
     }
-   }
+  } else if (tA[i][0] == "str") {
+    // This doesn't count for structural compatibility! (closcom being a pain)
+  } else {
+    if (tA[i][1] != tB[i][1])
+      throw new Error("Incompatibilities of this kind CANNOT be accepted at this stage");
   }
- } else if (tA[i][0] == "str") {
-  // This doesn't count for structural compatibility! (closcom being a pain)
- } else {
-  if (tA[i][1] != tB[i][1])
-   throw new Error("Incompatibilities of this kind CANNOT be accepted at this stage");
- }
 }
 
 mapper.logDeobfToObf(mapRealToCompiled);

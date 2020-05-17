@@ -9,25 +9,25 @@
 //  because it expects randomness to be... well, *random*.
 
 sc.NpcRunnerSpawner.inject({
- getRandomCharacter: function () {
-  if (Math["emileatasUseDRNG"] && (Math["emileatasLockedValue"] == null))
-   return this.parent();
-  // Overriding Math.random won't work ; it seems the only way to make this work is true randomness...
-  return this.groupData.characters[0];
- }
+  getRandomCharacter: function () {
+    if (Math["emileatasUseDRNG"] && (Math["emileatasLockedValue"] == null))
+      return this.parent();
+    // Overriding Math.random won't work ; it seems the only way to make this work is true randomness...
+    return this.groupData.characters[0];
+  }
 });
 
 // This is important if the TAS system is on deterministic randomness.
 // The sound manager throws about as many wrenches as one can find, and seems to have room for a few more, into these plans.
 ig.SoundManager.inject({
- update: function () {
-  Math["emileatasLockedValue"] = 0.5;
-  this.parent();
-  Math["emileatasLockedValue"] = null;
- },
- _updateTracks: function () {
-  Math["emileatasLockedValue"] = 0.5;
-  this.parent();
-  Math["emileatasLockedValue"] = null;
- }
+  update: function () {
+    Math["emileatasLockedValue"] = 0.5;
+    this.parent();
+    Math["emileatasLockedValue"] = null;
+  },
+  _updateTracks: function () {
+    Math["emileatasLockedValue"] = 0.5;
+    this.parent();
+    Math["emileatasLockedValue"] = null;
+  }
 });

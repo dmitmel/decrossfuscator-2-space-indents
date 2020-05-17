@@ -8,51 +8,51 @@
 var eta = window["mods"]["eltas"];
 
 eta["TAS_TIMELINE_STATE"] = {
- "ADVANCE": 0,
- "ADVANCE_PRE": 1,
- "PLAYING": 2
- // see hci-frame-control-additional
+  "ADVANCE": 0,
+  "ADVANCE_PRE": 1,
+  "PLAYING": 2
+  // see hci-frame-control-additional
 };
 
 eta["TASCore"].inject({
- "timelineState": eta["TAS_TIMELINE_STATE"]["PLAYING"],
+  "timelineState": eta["TAS_TIMELINE_STATE"]["PLAYING"],
 
- "runSingleSpeedFrame": function () {
-  if (this["timelineState"] == eta["TAS_TIMELINE_STATE"]["ADVANCE_PRE"]) {
-   this["timelineState"] = eta["TAS_TIMELINE_STATE"]["ADVANCE"];
-  } else if ((this["timelineState"] != eta["TAS_TIMELINE_STATE"]["ADVANCE"]) && ig.input.pressed("emileatasAdvframe")) {
-   this["timelineState"] = eta["TAS_TIMELINE_STATE"]["ADVANCE_PRE"];
-  }
-  if (ig.input.pressed("emileatasPlay"))
-   this["timelineState"] = eta["TAS_TIMELINE_STATE"]["PLAYING"];
-  this.parent();
- },
+  "runSingleSpeedFrame": function () {
+    if (this["timelineState"] == eta["TAS_TIMELINE_STATE"]["ADVANCE_PRE"]) {
+      this["timelineState"] = eta["TAS_TIMELINE_STATE"]["ADVANCE"];
+    } else if ((this["timelineState"] != eta["TAS_TIMELINE_STATE"]["ADVANCE"]) && ig.input.pressed("emileatasAdvframe")) {
+      this["timelineState"] = eta["TAS_TIMELINE_STATE"]["ADVANCE_PRE"];
+    }
+    if (ig.input.pressed("emileatasPlay"))
+      this["timelineState"] = eta["TAS_TIMELINE_STATE"]["PLAYING"];
+    this.parent();
+  },
 
- "runMaybeGameFrame": function () {
-  if (this["checkTimelineState"]()) {
-   this.parent();
-  } else {
-   this["didNotRunGameFrame"]();
-  }
- },
+  "runMaybeGameFrame": function () {
+    if (this["checkTimelineState"]()) {
+      this.parent();
+    } else {
+      this["didNotRunGameFrame"]();
+    }
+  },
 
- "checkTimelineState": function () {
-  if (this["timelineState"] == eta["TAS_TIMELINE_STATE"]["ADVANCE"]) {
-   return ig.input.pressed("emileatasAdvframe");
-  } else if (this["timelineState"] == eta["TAS_TIMELINE_STATE"]["ADVANCE_PRE"]) {
-   return false;
-  }
-  return true;
- },
+  "checkTimelineState": function () {
+    if (this["timelineState"] == eta["TAS_TIMELINE_STATE"]["ADVANCE"]) {
+      return ig.input.pressed("emileatasAdvframe");
+    } else if (this["timelineState"] == eta["TAS_TIMELINE_STATE"]["ADVANCE_PRE"]) {
+      return false;
+    }
+    return true;
+  },
 
- "checkSubframeImportance": function (isFirst, isLast) {
-  if (this["timelineState"] == eta["TAS_TIMELINE_STATE"]["ADVANCE"]) {
-   // In frame-advance mode, only the first frame will ever cause a render.
-   return isFirst;
-  } else {
-   // In playback mode, all frames cause a render, but only the last should be treated seriously.
-   // It has to be the last due to the glitches that occur otherwise.
-   return isLast;
+  "checkSubframeImportance": function (isFirst, isLast) {
+    if (this["timelineState"] == eta["TAS_TIMELINE_STATE"]["ADVANCE"]) {
+      // In frame-advance mode, only the first frame will ever cause a render.
+      return isFirst;
+    } else {
+      // In playback mode, all frames cause a render, but only the last should be treated seriously.
+      // It has to be the last due to the glitches that occur otherwise.
+      return isLast;
+    }
   }
- }
 });

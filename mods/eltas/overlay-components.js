@@ -8,119 +8,119 @@
 var eta = mods["eltas"];
 
 eta["GAME_LEA_THROW_STATES"] = {
- "IDLE": 0,
- "THROW": 1,
- "HELD": 2
+  "IDLE": 0,
+  "THROW": 1,
+  "HELD": 2
 };
 
 // Default Components; Part 1; In-Game
 
 eta["overlayComponents"]["eltas.PlayerState"] = new (eta["OverlayComponent"].extend({
- text: function () {
-  if (ig.game.playerEntity)
-   return eta["decodeEnum"](eta["GAME_LEA_THROW_STATES"], ig.game.playerEntity.state);
-  return null;
- }
+  text: function () {
+    if (ig.game.playerEntity)
+      return eta["decodeEnum"](eta["GAME_LEA_THROW_STATES"], ig.game.playerEntity.state);
+    return null;
+  }
 }))("PSt");
 
 eta["overlayComponents"]["eltas.Dash"] = new (eta["OverlayComponent"].extend({
- text: function () {
-  if (ig.game.playerEntity)
-   return (ig.game.playerEntity.maxDash - ig.game.playerEntity.dashCount).toString();
-  return null;
- }
+  text: function () {
+    if (ig.game.playerEntity)
+      return (ig.game.playerEntity.maxDash - ig.game.playerEntity.dashCount).toString();
+    return null;
+  }
 }))("Dash");
 
 eta["overlayComponents"]["eltas.Charged"] = new (eta["OverlayComponent"].extend({
- text: function () {
-  if (ig.game.playerEntity) {
-   var mock = eta["tascore"]["workingMock"];
-   ig.input["emileatasAccept"](mock);
-   var res = ig.game.playerEntity.gui.crosshair.isThrowCharged();
-   ig.input["emileatasAccept"](null);
-   if (res)
-    return "";
+  text: function () {
+    if (ig.game.playerEntity) {
+      var mock = eta["tascore"]["workingMock"];
+      ig.input["emileatasAccept"](mock);
+      var res = ig.game.playerEntity.gui.crosshair.isThrowCharged();
+      ig.input["emileatasAccept"](null);
+      if (res)
+        return "";
+    }
+    return null;
   }
-  return null;
- }
 }))("VRB");
 
 eta["overlayComponents"]["eltas.Special"] = new (eta["OverlayComponent"].extend({
- text: function () {
-  if (ig.game.playerEntity)
-   if (ig.game.playerEntity.charging.time >= 0)
-    return ig.game.playerEntity.charging.time.toString();
-  return null;
- }
+  text: function () {
+    if (ig.game.playerEntity)
+      if (ig.game.playerEntity.charging.time >= 0)
+        return ig.game.playerEntity.charging.time.toString();
+    return null;
+  }
 }))("Spc");
 
 eta["overlayComponents"]["eltas.GameState"] = new (eta["OverlayComponent"].extend({
- text: function () {
-  return eta["decodeEnum"](sc.GAME_MODEL_STATE, sc.model.currentState) + "," + eta["decodeEnum"](sc.GAME_MODEL_SUBSTATE, sc.model.currentSubState);
- }
+  text: function () {
+    return eta["decodeEnum"](sc.GAME_MODEL_STATE, sc.model.currentState) + "," + eta["decodeEnum"](sc.GAME_MODEL_SUBSTATE, sc.model.currentSubState);
+  }
 }))("GSt");
 
 // Default Components; Part 2; TAS
 
 eta["overlayComponents"]["eltas.Reader"] = new (eta["OverlayComponent"].extend({
- text: function () {
-  if (eta["tascore"]["reader"] != null)
-   return eta["tascore"]["readerTimer"].toString();
-  return null;
- }
+  text: function () {
+    if (eta["tascore"]["reader"] != null)
+      return eta["tascore"]["readerTimer"].toString();
+    return null;
+  }
 }))("Rd");
 
 eta["overlayComponents"]["eltas.Writer"] = new (eta["OverlayComponent"].extend({
- text: function () {
-  if (eta["tascore"]["writer"] != null)
-   return eta["tascore"]["writer"]["frames"].length.toString();
-  return null;
- }
+  text: function () {
+    if (eta["tascore"]["writer"] != null)
+      return eta["tascore"]["writer"]["frames"].length.toString();
+    return null;
+  }
 }))("Wr");
 
 eta["overlayComponents"]["eltas.Saved"] = new (eta["OverlayComponent"].extend({
- text: function () {
-  if (eta["tascore"]["hasSavedThisFrame"])
-   return "";
-  return null;
- }
+  text: function () {
+    if (eta["tascore"]["hasSavedThisFrame"])
+      return "";
+    return null;
+  }
 }))("Saved");
 
 eta["overlayComponents"]["eltas.Input"] = new (eta["OverlayComponent"].extend({
- text: function () {
-  return eta["decodeEnum"](eta["TAS_INPUT_SOURCE"], eta["tascore"]["inputSrc"]);
- }
+  text: function () {
+    return eta["decodeEnum"](eta["TAS_INPUT_SOURCE"], eta["tascore"]["inputSrc"]);
+  }
 }))("In");
 
 eta["overlayComponents"]["eltas.Timeline"] = new (eta["OverlayComponent"].extend({
- text: function () {
-  return eta["decodeEnum"](eta["TAS_TIMELINE_STATE"], eta["tascore"]["timelineState"]) + "@" + eta["tascore"]["superspeed"];
- }
+  text: function () {
+    return eta["decodeEnum"](eta["TAS_TIMELINE_STATE"], eta["tascore"]["timelineState"]) + "@" + eta["tascore"]["superspeed"];
+  }
 }))("TS");
 
 eta["overlayComponents"]["eltas.Keys"] = new (eta["OverlayComponent"].extend({
- text: function () {
-  status = "";
-  for (var k in eta["tascore"]["workingMock"]["state"]) {
-   if (status != "")
-    status += " ";
-   status += k + eta["tascore"]["workingMock"]["state"][k];
+  text: function () {
+    status = "";
+    for (var k in eta["tascore"]["workingMock"]["state"]) {
+      if (status != "")
+        status += " ";
+      status += k + eta["tascore"]["workingMock"]["state"][k];
+    }
+    if (status == "")
+      return null;
+    return status;
   }
-  if (status == "")
-   return null;
-  return status;
- }
 }))("K");
 
 eta["overlayComponents"]["eltas.Warning"] = new (eta["OverlayComponent"].extend({
- text: function () {
-  if (ig.system["emileatasWarning"])
-   return ig.system["emileatasWarning"];
-  if (Math["emileatasUseDRNG"])
-   return "Deterministic RNG in use. This doesn't work properly yet, so expect playback issues";
-  return eta["tascore"]["speedTrackingOverruns"].toString() + "/" + eta["tascore"]["speedTrackingUnderruns"].toString() + "/" + eta["tascore"]["speedTimeBreak"].toString();
-  //return null;
- }
+  text: function () {
+    if (ig.system["emileatasWarning"])
+      return ig.system["emileatasWarning"];
+    if (Math["emileatasUseDRNG"])
+      return "Deterministic RNG in use. This doesn't work properly yet, so expect playback issues";
+    return eta["tascore"]["speedTrackingOverruns"].toString() + "/" + eta["tascore"]["speedTrackingUnderruns"].toString() + "/" + eta["tascore"]["speedTimeBreak"].toString();
+    //return null;
+  }
 }))("Warning");
 
 // -- Setup default...
@@ -142,49 +142,49 @@ eta["overlayDefaultUL"].push("eltas.Warning");
 
 // Optional Components
 eta["overlayComponents"]["eltas.Map"] = new (eta["OverlayComponent"].extend({
- text: function () {
-  return ig.game.mapName;
- }
+  text: function () {
+    return ig.game.mapName;
+  }
 }))("Map");
 
 eta["overlayComponents"]["eltas.Marker"] = new (eta["OverlayComponent"].extend({
- text: function () {
-  if (ig.game.marker) {
-   return ig.game.marker;
-  } else {
-   return null;
+  text: function () {
+    if (ig.game.marker) {
+      return ig.game.marker;
+    } else {
+      return null;
+    }
   }
- }
 }))("Marker");
 
 eta["overlayComponents"]["eltas.CheckpointMap"] = new (eta["OverlayComponent"].extend({
- text: function () {
-  if (ig.storage.checkPointSave.map)
-   return ig.storage.checkPointSave.map;
-  return null;
- }
+  text: function () {
+    if (ig.storage.checkPointSave.map)
+      return ig.storage.checkPointSave.map;
+    return null;
+  }
 }))("CMap");
 
 eta["overlayComponents"]["eltas.CheckpointMarker"] = new (eta["OverlayComponent"].extend({
- text: function () {
-  if (ig.storage.checkPointSave.position)
-   if (ig.storage.checkPointSave.position.marker)
-    return ig.storage.checkPointSave.position.marker;
-  return null;
- }
+  text: function () {
+    if (ig.storage.checkPointSave.position)
+      if (ig.storage.checkPointSave.position.marker)
+        return ig.storage.checkPointSave.position.marker;
+    return null;
+  }
 }))("CMarker");
 
 eta["overlayComponents"]["eltas.SaveCount"] = new (eta["OverlayComponent"].extend({
- text: function () {
-  var i = sc.stats.getMap("player", "saves");
-  if (i == undefined)
-   return null;
-  return i;
- }
+  text: function () {
+    var i = sc.stats.getMap("player", "saves");
+    if (i == undefined)
+      return null;
+    return i;
+  }
 }))("Saves");
 
 eta["overlayComponents"]["eltas.LineBreak"] = new (eta["OverlayComponent"].extend({
- text: function () {
-  return "";
- }
+  text: function () {
+    return "";
+  }
 }))("\n");

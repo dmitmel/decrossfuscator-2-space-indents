@@ -11,25 +11,25 @@ var rui = window["mods"]["raptureui"] = {};
 rui["titleButtons"] = [];
 rui["constantAllocatorNext"] = -9876;
 rui["allocateConstant"] = function () {
- return rui["constantAllocatorNext"]--;
+  return rui["constantAllocatorNext"]--;
 };
 rui["titleButtonCallbacks"] = [];
 rui["showRestartWarning"] = function () {
- sc.Dialogs.showInfoDialog("Please note that to apply these changes, you will have to restart the game.");
- rui["showRestartWarning"] = function () {};
+  sc.Dialogs.showInfoDialog("Please note that to apply these changes, you will have to restart the game.");
+  rui["showRestartWarning"] = function () {};
 };
 rui["titleButtonGui"] = null; // Instance of sc.TitleScreenButtonGui
 rui["titleLoseControl"] = function () {
- // Makes the title screen lose control for your custom UI.
- ig.bgm.pause("SLOW");
- ig.interact.removeEntry(rui["titleButtonGui"].buttonInteract);
- rui["titleButtonGui"].background.doStateTransition("DEFAULT");
+  // Makes the title screen lose control for your custom UI.
+  ig.bgm.pause("SLOW");
+  ig.interact.removeEntry(rui["titleButtonGui"].buttonInteract);
+  rui["titleButtonGui"].background.doStateTransition("DEFAULT");
 };
 rui["titleTakeControl"] = function () {
- // Gives the title screen control again.
- rui["titleButtonGui"].background.doStateTransition("HIDDEN");
- ig.interact.addEntry(rui["titleButtonGui"].buttonInteract);
- ig.bgm.resume("SLOW");
+  // Gives the title screen control again.
+  rui["titleButtonGui"].background.doStateTransition("HIDDEN");
+  ig.interact.addEntry(rui["titleButtonGui"].buttonInteract);
+  ig.bgm.resume("SLOW");
 };
 // rui["registerKey"] // keybinding.js
 // The enter state functions & constants defined by runvanilla.js

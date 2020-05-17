@@ -9,26 +9,26 @@
 // This can be used to try and provide a solid 60FPS experience on slow systems while maintaining determinism.
 
 ig.GuiDrawable.inject({
- draw: function (a, b) {
-  if (ig.system["emileatasRenderOff"])
-   return;
-  this.parent(a, b);
- }
+  draw: function (a, b) {
+    if (ig.system["emileatasRenderOff"])
+      return;
+    this.parent(a, b);
+  }
 });
 
 ig.Renderer2d.inject({
- drawLayers: function (a, b) {
-  if (ig.system["emileatasRenderOff"])
-   return;
-  this.parent(a, b);
- },
- drawEntities: function (a, b) {
-  if (ig.system["emileatasRenderOff"])
-   return;
-  this.parent(a, b);
- }
+  drawLayers: function (a, b) {
+    if (ig.system["emileatasRenderOff"])
+      return;
+    this.parent(a, b);
+  },
+  drawEntities: function (a, b) {
+    if (ig.system["emileatasRenderOff"])
+      return;
+    this.parent(a, b);
+  }
 });
 
 ig.System.inject({
- "emileatasRenderOff": false
+  "emileatasRenderOff": false
 });

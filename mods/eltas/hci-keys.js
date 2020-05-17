@@ -22,4 +22,3 @@ window["mods"]["raptureui"]["registerKey"]("emileatasInput3X", "TAS File Input (
 window["mods"]["raptureui"]["registerKey"]("emileatasFileInputSkipFrame", "TAS File Input Skip Frame", ig.KEY.DECIMAL);
 window["mods"]["raptureui"]["registerKey"]("emileatasWriterToggle", "TAS Toggle Output (Turning off deletes buffer!!!)", ig.KEY.DIVIDE);
 window["mods"]["raptureui"]["registerKey"]("emileatasWriterConfirm", "TAS Write Frames To Disk", ig.KEY.MULTIPLY);
-

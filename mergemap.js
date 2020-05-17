@@ -26,7 +26,7 @@ googleMatcher = googleMatcher.execute(tokens);
 var mainMatch = mainMatcher.execute(tokens, new mapper.T2Map(deobfMap, googleMatcher.map));
 
 for (var i = 0; i < mainMatcher.knownNames.length; i++)
- if (!mainMatch.map.has(mainMatcher.knownNames[i]))
-  console.error("matcher for " + mainMatcher.knownNames[i] + " failed...");
+  if (!mainMatch.map.has(mainMatcher.knownNames[i]))
+    console.error("matcher for " + mainMatcher.knownNames[i] + " failed...");
 
 mapper.logDeobfToObf(mainMatch.map);

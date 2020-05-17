@@ -12,54 +12,54 @@ rapture["include"]("workarounds.js");
 rapture["include"]("safe-render-off.js");
 
 eta["decodeEnum"] = function (enu, val) {
- for (var k in enu) {
-  if (enu[k] == val) {
-   // It's possible 'k' is obfuscated.
-   return rapture["mapBack"].get(k) || k;
+  for (var k in enu) {
+    if (enu[k] == val) {
+      // It's possible 'k' is obfuscated.
+      return rapture["mapBack"].get(k) || k;
+    }
   }
- }
- return val.toString();
+  return val.toString();
 };
 
 eta["TASCore"] = ig.Class.extend({
- // -- 'run' and 'runLoading' functions are the TASCore API to Fakery. --
- // Default behavior of TASCore is to be a 'dummy'.
- // This means no input mocks are performed at all.
+  // -- 'run' and 'runLoading' functions are the TASCore API to Fakery. --
+  // Default behavior of TASCore is to be a 'dummy'.
+  // This means no input mocks are performed at all.
 
- // The outermost run function! This is called from ig.System to perform TAS functions.
- "run": function () {
-  // This space reserved for speed control
-  this["runSingleSpeedFrame"]();
- },
- "runSingleSpeedFrame": function () {
-  // This space reserved for TAS always-on per-frame mechanisms that do not affect general control flow
-  this["runMaybeGameFrame"]();
-  // This space reserved for more of that, plus overlay
- },
- "runMaybeGameFrame": function () {
-  // This space reserved for any mechanism that controls if the game actually runs (frame-advance more or less)
-  this["runGameFrame"]();
- },
- "didNotRunGameFrame": function () {
-  ig.input.clearPressed();
- },
- "runGameFrame": function () {
-  // This space reserved for input control & confirmation handling
-  ig.system["emileatasGameRun"]();
-  // This space reserved for input control deactivation
- },
+  // The outermost run function! This is called from ig.System to perform TAS functions.
+  "run": function () {
+    // This space reserved for speed control
+    this["runSingleSpeedFrame"]();
+  },
+  "runSingleSpeedFrame": function () {
+    // This space reserved for TAS always-on per-frame mechanisms that do not affect general control flow
+    this["runMaybeGameFrame"]();
+    // This space reserved for more of that, plus overlay
+  },
+  "runMaybeGameFrame": function () {
+    // This space reserved for any mechanism that controls if the game actually runs (frame-advance more or less)
+    this["runGameFrame"]();
+  },
+  "didNotRunGameFrame": function () {
+    ig.input.clearPressed();
+  },
+  "runGameFrame": function () {
+    // This space reserved for input control & confirmation handling
+    ig.system["emileatasGameRun"]();
+    // This space reserved for input control deactivation
+  },
 
- // The *other* outermost run function! This is called from ig.System during the LOADING state.
- // In this case, the frame counter does not advance.
- "runLoading": function () {
-  // This space reserved for input control
-  ig.system["emileatasGameRun"]();
-  // This space also reserved for input control
- },
+  // The *other* outermost run function! This is called from ig.System during the LOADING state.
+  // In this case, the frame counter does not advance.
+  "runLoading": function () {
+    // This space reserved for input control
+    ig.system["emileatasGameRun"]();
+    // This space also reserved for input control
+  },
 
- // Occurs whenever a "run" does not happen. This includes after a "runLoading".
- "alertTimeBreak": function () {
- }
+  // Occurs whenever a "run" does not happen. This includes after a "runLoading".
+  "alertTimeBreak": function () {
+  }
 });
 
 eta["tascore"] = null;
@@ -83,4 +83,3 @@ rapture["include"]("overlay-components.js");
 rapture["include"]("settingsui.js");
 
 rapture["include"]("hci-overlay.js");
-

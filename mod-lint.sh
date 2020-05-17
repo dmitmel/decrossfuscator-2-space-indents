@@ -14,5 +14,5 @@ VERSIMF=$ROOTDIR/versions/$VERSION
 # Go through Rapture mods...
 
 for JSFILE in $(find mods -iregex ".*js"); do
- node mod-lint.js $JSFILE $VERSIMF/deobf.map
+  node mod-lint.js $JSFILE $VERSIMF/deobf.map
 done

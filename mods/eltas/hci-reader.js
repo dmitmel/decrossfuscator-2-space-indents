@@ -12,86 +12,86 @@ var eta = window["mods"]["eltas"];
 eta["TAS_INPUT_SOURCE"]["READER"] = 2;
 
 eta["TASCore"].inject({
- "reader": null,
- "readerTimer": null,
+  "reader": null,
+  "readerTimer": null,
 
- "runSingleSpeedFrame": function () {
-  if (ig.input.pressed("emileatasInput3")) {
-   this["enterInputSrc"](eta["TAS_INPUT_SOURCE"]["READER"]);
-  } else if (ig.input.pressed("emileatasInput3X")) {
-   this["reader"] = null;
-   this["enterInputSrc"](eta["TAS_INPUT_SOURCE"]["READER"]);
-  }
-  if (ig.input.pressed("emileatasFileInputSkipFrame"))
-   this["advanceReader"]();
-  this.parent();
- },
+  "runSingleSpeedFrame": function () {
+    if (ig.input.pressed("emileatasInput3")) {
+      this["enterInputSrc"](eta["TAS_INPUT_SOURCE"]["READER"]);
+    } else if (ig.input.pressed("emileatasInput3X")) {
+      this["reader"] = null;
+      this["enterInputSrc"](eta["TAS_INPUT_SOURCE"]["READER"]);
+    }
+    if (ig.input.pressed("emileatasFileInputSkipFrame"))
+      this["advanceReader"]();
+    this.parent();
+  },
 
- "loadReader": function () {
-  var fs = require("fs");
-  try {
-   this["reader"] = JSON.parse(fs.readFileSync("eltasBuffer.json", "utf8"));
-  } catch (e) {
-   return false;
-  }
-  if (this["reader"] instanceof Array) {
-   this["reader"] = {
-    "frames": this["reader"]
-   };
-  }
-  this["readerTimer"] = 0;
-  // If there's a writer, then checkpointing & messing around would upset the flow of that writer
-  // If there's no writer, nothing to worry about
-  if (this["writer"] == null) {
-   // Check for presence of newer features, and enable them / switch to legacy behavior as required.
-   if (this["reader"]["dRNG"]) {
-    Math["emileatasUseDRNG"] = true;
-   } else {
-    Math["emileatasUseDRNG"] = false;
-   }
-   if (this["reader"]["mouseGui"]) {
-    ig.Input["emileatasForceMouseGuiActiveAlways"] = false;
-   } else {
-    ig.Input["emileatasForceMouseGuiActiveAlways"] = true;
-   }
-   // ----
-   ig.Timer["emileatasCheckpoint"]();
-  }
-  if (this["reader"]["frames"].length == 0)
-   this["reader"] = null;
-  return true;
- },
+  "loadReader": function () {
+    var fs = require("fs");
+    try {
+      this["reader"] = JSON.parse(fs.readFileSync("eltasBuffer.json", "utf8"));
+    } catch (e) {
+      return false;
+    }
+    if (this["reader"] instanceof Array) {
+      this["reader"] = {
+        "frames": this["reader"]
+      };
+    }
+    this["readerTimer"] = 0;
+    // If there's a writer, then checkpointing & messing around would upset the flow of that writer
+    // If there's no writer, nothing to worry about
+    if (this["writer"] == null) {
+      // Check for presence of newer features, and enable them / switch to legacy behavior as required.
+      if (this["reader"]["dRNG"]) {
+        Math["emileatasUseDRNG"] = true;
+      } else {
+        Math["emileatasUseDRNG"] = false;
+      }
+      if (this["reader"]["mouseGui"]) {
+        ig.Input["emileatasForceMouseGuiActiveAlways"] = false;
+      } else {
+        ig.Input["emileatasForceMouseGuiActiveAlways"] = true;
+      }
+      // ----
+      ig.Timer["emileatasCheckpoint"]();
+    }
+    if (this["reader"]["frames"].length == 0)
+      this["reader"] = null;
+    return true;
+  },
 
- "advanceReader": function () {
-  this["readerTimer"]++;
-  if (this["readerTimer"] >= this["reader"]["frames"].length) {
-   this["reader"] = null;
-   if (this["inputSrc"] == eta["TAS_INPUT_SOURCE"]["READER"])
-    this["enterInputSrc"](eta["TAS_INPUT_SOURCE"]["DIRECT"]);
+  "advanceReader": function () {
+    this["readerTimer"]++;
+    if (this["readerTimer"] >= this["reader"]["frames"].length) {
+      this["reader"] = null;
+      if (this["inputSrc"] == eta["TAS_INPUT_SOURCE"]["READER"])
+        this["enterInputSrc"](eta["TAS_INPUT_SOURCE"]["DIRECT"]);
+    }
+  },
+
+  "enterInputSrc": function (i) {
+    // Entering READER input source? Try to load. If that fails, change mind
+    if (i == eta["TAS_INPUT_SOURCE"]["READER"])
+      if (this["reader"] == null)
+        if (!this["loadReader"]())
+          return this["enterInputSrc"](eta["TAS_INPUT_SOURCE"]["DIRECT"]);
+    this.parent(i);
+  },
+
+  "executeInputSrc": function () {
+    if (this["inputSrc"] == eta["TAS_INPUT_SOURCE"]["READER"]) {
+      if (this["readerTimer"] < this["reader"]["frames"].length)
+        this["workingMock"] = ig.copy(this["reader"]["frames"][this["readerTimer"]]);
+      return;
+    }
+    this.parent();
+  },
+
+  "runGameFrame": function () {
+    if (this["inputSrc"] == eta["TAS_INPUT_SOURCE"]["READER"])
+      this["advanceReader"]();
+    this.parent();
   }
- },
-
- "enterInputSrc": function (i) {
-  // Entering READER input source? Try to load. If that fails, change mind
-  if (i == eta["TAS_INPUT_SOURCE"]["READER"])
-   if (this["reader"] == null)
-    if (!this["loadReader"]())
-     return this["enterInputSrc"](eta["TAS_INPUT_SOURCE"]["DIRECT"]);
-  this.parent(i);
- },
-
- "executeInputSrc": function () {
-  if (this["inputSrc"] == eta["TAS_INPUT_SOURCE"]["READER"]) {
-   if (this["readerTimer"] < this["reader"]["frames"].length)
-    this["workingMock"] = ig.copy(this["reader"]["frames"][this["readerTimer"]]);
-   return;
-  }
-  this.parent();
- },
-
- "runGameFrame": function () {
-  if (this["inputSrc"] == eta["TAS_INPUT_SOURCE"]["READER"])
-   this["advanceReader"]();
-  this.parent();
- }
 });

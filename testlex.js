@@ -11,7 +11,7 @@ var lexer = require("./lib/lexer");
 var text = fs.readFileSync(process.argv[2], "utf8");
 var tkns = lexer.lexString(text);
 for (var i = 0; i < tkns.length; i++) {
- var t = tkns[i];
- if (t[0] != "whitespace")
-  console.log(t[0] + ": " + t[1]);
+  var t = tkns[i];
+  if (t[0] != "whitespace")
+    console.log(t[0] + ": " + t[1]);
 }

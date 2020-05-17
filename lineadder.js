@@ -11,7 +11,7 @@ var fs = require("fs");
 var src = fs.readFileSync(process.argv[2], "utf8");
 var lines = src.split("\n");
 for (var i = 0; i < lines.length; i++) {
- console.log(lines[i]);
- if (lines[i].indexOf(process.argv[3]) != -1)
-  console.log(process.argv[4]);
+  console.log(lines[i]);
+  if (lines[i].indexOf(process.argv[3]) != -1)
+    console.log(process.argv[4]);
 }

@@ -1,28 +1,28 @@
 {
- "includes" : [],
- "snippets" : [
-  [
-   ["googleThrow", "googleUndefined", "googleTrue", "googleNull", "googleFalse"],
-   ["f", "g", "j", "s", "w"],
-   ["function f($$){throw $$;}var g=void 0,j=!0,s=null,w=!1;"],
-    "0.7.0", "Google Matchers X (Global Namespace, reuses the matcher framework for simplicity)"
+  "includes" : [],
+  "snippets" : [
+    [
+      ["googleThrow", "googleUndefined", "googleTrue", "googleNull", "googleFalse"],
+      ["f", "g", "j", "s", "w"],
+      ["function f($$){throw $$;}var g=void 0,j=!0,s=null,w=!1;"],
+        "0.7.0", "Google Matchers X (Global Namespace, reuses the matcher framework for simplicity)"
+    ],
+    [
+      ["googleNewNop", "googleNewSetter", "googleNewGetter", "googleNewFinal"],
+      ["E", "L", "M", "R"],
+      ["function E(){return function(){}}",
+        "function L($$){return function($$){this[$$]=$$}}",
+        "function M($$){return function(){return this[$$]}}",
+        "function R($$){return function(){return $$}}"],
+        "0.7.0", "Google Matchers Y"
+    ],
+    [
+      ["googleNewIdentity"],
+      ["ba"],
+      ["function ba(){return function($$){return $$}}"],
+        "0.7.0", "Google Matchers Z (this is missing for NHC)"
+    ]
   ],
-  [
-   ["googleNewNop", "googleNewSetter", "googleNewGetter", "googleNewFinal"],
-   ["E", "L", "M", "R"],
-   ["function E(){return function(){}}",
-    "function L($$){return function($$){this[$$]=$$}}",
-    "function M($$){return function(){return this[$$]}}",
-    "function R($$){return function(){return $$}}"],
-    "0.7.0", "Google Matchers Y"
-  ],
-  [
-   ["googleNewIdentity"],
-   ["ba"],
-   ["function ba(){return function($$){return $$}}"],
-    "0.7.0", "Google Matchers Z (this is missing for NHC)"
-  ]
- ],
- "deleteThese" : [],
- "lostSymbols" : {}
+  "deleteThese" : [],
+  "lostSymbols" : {}
 }

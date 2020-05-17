@@ -13,46 +13,46 @@ eta["TAS_TIMELINE_STATE"]["TO_DASH_EXHAUST"] = 5;
 eta["TAS_TIMELINE_STATE"]["TO_DASH_REFILL"] = 6;
 
 eta["TASCore"].inject({
- "runSingleSpeedFrame": function () {
-  if (ig.input.pressed("emileatasPtcs"))
-   this["timelineState"] = eta["TAS_TIMELINE_STATE"][sc.model.isCutscene() ? "TO_CUTSCENE_END" : "TO_CUTSCENE"];
-  if (ig.input.pressed("emileatasPtdr")) {
-   this["timelineState"] = eta["TAS_TIMELINE_STATE"]["TO_DASH_REFILL"];
-   // If told to before exhaustion, assume we're trying to exhaust dashing.
-   if (ig.game.playerEntity)
-    if (ig.game.playerEntity.dashCount < (ig.game.playerEntity.maxDash - 1))
-     this["timelineState"] = eta["TAS_TIMELINE_STATE"]["TO_DASH_EXHAUST"];
-  }
-  if (this["timelineState"] == eta["TAS_TIMELINE_STATE"]["TO_CUTSCENE"]) {
-   if (sc.model.isCutscene())
-    this["timelineState"] = eta["TAS_TIMELINE_STATE"]["ADVANCE"];
-  } else if (this["timelineState"] == eta["TAS_TIMELINE_STATE"]["TO_CUTSCENE_END"]) {
-   if (!sc.model.isCutscene())
-    this["timelineState"] = eta["TAS_TIMELINE_STATE"]["ADVANCE"];
-  } else if (this["timelineState"] == eta["TAS_TIMELINE_STATE"]["TO_DASH_REFILL"]) {
-   // Refill/exhaust checkers both also stop on cutscene
-   if (sc.model.isCutscene())
-    this["timelineState"] = eta["TAS_TIMELINE_STATE"]["ADVANCE"];
-   if (ig.game.playerEntity)
-    if (ig.game.playerEntity.dashCount == 0)
-     this["timelineState"] = eta["TAS_TIMELINE_STATE"]["ADVANCE"];
-  } else if (this["timelineState"] == eta["TAS_TIMELINE_STATE"]["TO_DASH_EXHAUST"]) {
-   // Refill/exhaust checkers both also stop on cutscene
-   if (sc.model.isCutscene())
-    this["timelineState"] = eta["TAS_TIMELINE_STATE"]["ADVANCE"];
-   if (ig.game.playerEntity)
-    if (ig.game.playerEntity.dashCount >= ig.game.playerEntity.maxDash - 1)
-     this["timelineState"] = eta["TAS_TIMELINE_STATE"]["ADVANCE"];
-  }
-  this.parent();
- },
+  "runSingleSpeedFrame": function () {
+    if (ig.input.pressed("emileatasPtcs"))
+      this["timelineState"] = eta["TAS_TIMELINE_STATE"][sc.model.isCutscene() ? "TO_CUTSCENE_END" : "TO_CUTSCENE"];
+    if (ig.input.pressed("emileatasPtdr")) {
+      this["timelineState"] = eta["TAS_TIMELINE_STATE"]["TO_DASH_REFILL"];
+      // If told to before exhaustion, assume we're trying to exhaust dashing.
+      if (ig.game.playerEntity)
+        if (ig.game.playerEntity.dashCount < (ig.game.playerEntity.maxDash - 1))
+          this["timelineState"] = eta["TAS_TIMELINE_STATE"]["TO_DASH_EXHAUST"];
+    }
+    if (this["timelineState"] == eta["TAS_TIMELINE_STATE"]["TO_CUTSCENE"]) {
+      if (sc.model.isCutscene())
+        this["timelineState"] = eta["TAS_TIMELINE_STATE"]["ADVANCE"];
+    } else if (this["timelineState"] == eta["TAS_TIMELINE_STATE"]["TO_CUTSCENE_END"]) {
+      if (!sc.model.isCutscene())
+        this["timelineState"] = eta["TAS_TIMELINE_STATE"]["ADVANCE"];
+    } else if (this["timelineState"] == eta["TAS_TIMELINE_STATE"]["TO_DASH_REFILL"]) {
+      // Refill/exhaust checkers both also stop on cutscene
+      if (sc.model.isCutscene())
+        this["timelineState"] = eta["TAS_TIMELINE_STATE"]["ADVANCE"];
+      if (ig.game.playerEntity)
+        if (ig.game.playerEntity.dashCount == 0)
+          this["timelineState"] = eta["TAS_TIMELINE_STATE"]["ADVANCE"];
+    } else if (this["timelineState"] == eta["TAS_TIMELINE_STATE"]["TO_DASH_EXHAUST"]) {
+      // Refill/exhaust checkers both also stop on cutscene
+      if (sc.model.isCutscene())
+        this["timelineState"] = eta["TAS_TIMELINE_STATE"]["ADVANCE"];
+      if (ig.game.playerEntity)
+        if (ig.game.playerEntity.dashCount >= ig.game.playerEntity.maxDash - 1)
+          this["timelineState"] = eta["TAS_TIMELINE_STATE"]["ADVANCE"];
+    }
+    this.parent();
+  },
 
- "checkTimelineState": function () {
-  if (this["timelineState"] == eta["TAS_TIMELINE_STATE"]["ADVANCE"]) {
-   return ig.input.pressed("emileatasAdvframe");
-  } else if (this["timelineState"] == eta["TAS_TIMELINE_STATE"]["ADVANCE_PRE"]) {
-   return false;
+  "checkTimelineState": function () {
+    if (this["timelineState"] == eta["TAS_TIMELINE_STATE"]["ADVANCE"]) {
+      return ig.input.pressed("emileatasAdvframe");
+    } else if (this["timelineState"] == eta["TAS_TIMELINE_STATE"]["ADVANCE_PRE"]) {
+      return false;
+    }
+    return true;
   }
-  return true;
- }
 });

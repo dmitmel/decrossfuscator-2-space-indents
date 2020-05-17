@@ -24,32 +24,31 @@ var mainMatcher = new matcher.Matcher(process.argv[5]);
 mainMatcher.loadProfileFile(process.argv[4]);
 
 function checkId(str, d) {
- if (lexer.words.all.indexOf(str) != -1) {
-  console.log(d + str + " is a JS keyword");
-  return;
- }
- if (rosettaGlobals.obfBlacklist.indexOf(str) != -1) {
-  console.log(d + str + " is on the OBF blacklist");
-  return;
- }
+  if (lexer.words.all.indexOf(str) != -1) {
+    console.log(d + str + " is a JS keyword");
+    return;
+  }
+  if (rosettaGlobals.obfBlacklist.indexOf(str) != -1) {
+    console.log(d + str + " is on the OBF blacklist");
+    return;
+  }
 }
 
 console.log("-- Additions --")
 
 for (var p = newMap.keys(), n = null; (n = p.next()) && !n.done;)
- if (!oldMap.has(n.value))
-  console.log(n.value + " added as " + newMap.get(n.value));
+  if (!oldMap.has(n.value))
+    console.log(n.value + " added as " + newMap.get(n.value));
 
 console.log("-- Errors & Subtractions --")
 
 for (var p = newMap.keys(), n = null; (n = p.next()) && !n.done;) {
- checkId(newMap.get(n.value), "Obf for " + n.value + ": ");
- if (mainMatcher.lostSymbols.indexOf(n.value) != -1)
-  console.log("Lost symbol " + n.value + " present");
+  checkId(newMap.get(n.value), "Obf for " + n.value + ": ");
+  if (mainMatcher.lostSymbols.indexOf(n.value) != -1)
+    console.log("Lost symbol " + n.value + " present");
 }
 
 for (var p = oldMap.keys(), n = null; (n = p.next()) && !n.done;)
- if (!newMap.has(n.value))
-  if (mainMatcher.lostSymbols.indexOf(n.value) == -1)
-   console.log(n.value + " missing, was " + oldMap.get(n.value));
-
+  if (!newMap.has(n.value))
+    if (mainMatcher.lostSymbols.indexOf(n.value) == -1)
+      console.log(n.value + " missing, was " + oldMap.get(n.value));
